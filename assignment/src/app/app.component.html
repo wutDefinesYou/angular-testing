@@ -1,0 +1,13 @@
+<div>
+  <h1>Characters</h1>
+  <div *ngFor="let character of characters">
+    <div>
+      <strong>name </strong>
+      {{ character.name ? character.name : character.aliases[0] }}
+    </div>
+    <div><strong>culture </strong> {{ character.culture }}</div>
+    <div><strong>Number of Books: </strong> {{ character.books.length }}</div>
+  </div>
+  <button (click)="handleClick()">Load More Characters</button>
+  <div>Next page: {{ pageNumber }}</div>
+</div>
