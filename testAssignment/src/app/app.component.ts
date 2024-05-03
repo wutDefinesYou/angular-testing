@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Character } from './character.model';
 import { CharacterService } from './character.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent {
   }
 
   fetchCharacters(): void {
-    this.characterService.getCharacters(this.pageNumber)
+    from(this.characterService.getCharacters(this.pageNumber))
       .subscribe(
         (newCharacters: Character[]) => {
           this.characters = newCharacters;
