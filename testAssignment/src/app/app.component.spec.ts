@@ -25,17 +25,23 @@ describe('AppComponent', () => {
   it('show fields for "name" and "culture"', () => {
     const debugElement: DebugElement = fixture.debugElement;
     const charNameDe = debugElement.queryAll(By.css('.charname'));
-    const charNameStrong = charNameDe.map(
-      (div) => div.nativeElement.childNodes[0]
-    );
+    const charNameDiv = charNameDe.map((div) => div.nativeElement);
     const cultureDe = debugElement.queryAll(By.css('.culture'));
-    const cultureStrong = cultureDe.map(
-      (div) => div.nativeElement.childNodes[0]
-    );
+    const cultureDiv = cultureDe.map((div) => div.nativeElement);
 
     for (let i = 0; i < component.characters.length; i++) {
-      expect(charNameStrong[i].textContent).toBe('name ');
-      expect(cultureStrong[i].textContent).toBe('culture ');
+      if (component.characters[i].name)
+        expect(charNameDiv[i].textContent.trim()).toBe(
+          `name  ${component.characters[i].name}`
+        );
+      else
+        expect(charNameDiv[i].textContent.trim()).toBe(
+          `name  ${component.characters[i].aliases[0]}`
+        );
+
+      expect(cultureDiv[i].textContent.trim()).toBe(
+        `culture ${component.characters[i].culture}`
+      );
     }
   });
 
@@ -44,9 +50,10 @@ describe('AppComponent', () => {
     const booksNoDe = debugElement.queryAll(By.css('.booksno'));
     const booksNo = booksNoDe.map((div) => div.nativeElement);
 
-    for (const ele of booksNo) {
-      expect(ele.textContent).toContain('Number of Books:');
-      expect(parseInt(ele.textContent.split('').at(-1))).toBeGreaterThan(0);
+    for (let i = 0; i < component.characters.length; i++) {
+      expect(booksNo[i].textContent.trim()).toBe(
+        `Number of Books: ${component.characters[i].books.length}`
+      );
     }
   });
 
